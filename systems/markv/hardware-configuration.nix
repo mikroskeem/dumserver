@@ -16,18 +16,18 @@
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-uuid/152d6ed6-f14f-4e99-a42c-30b61cfe46c2";
+      device = "/dev/disk/by-label/nixos";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/01d0f985-a53e-4153-96c7-3020611450c6";
+      device = "/dev/disk/by-label/boot";
       fsType = "ext4";
     };
 
   swapDevices =
-    [{ device = "/dev/disk/by-uuid/eec757aa-4fad-4bb4-b471-ad9ace55b9bb"; }];
+    [{ device = "/dev/disk/by-label/swap"; }];
 
   nix.maxJobs = lib.mkDefault 8;
 }
