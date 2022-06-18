@@ -19,63 +19,8 @@
 
   networking.firewall = {
     enable = true;
-    trustedInterfaces = [ "wg-testnet" ];
     allowedTCPPorts = [ 22 80 334 ] ++ [ 25 143 465 587 ] ++ [ 4001 ];
-    allowedUDPPorts = [ 51821 ] ++ [ 4001 ];
-  };
-
-  networking.wireguard.interfaces = {
-    wg-testnet = {
-      ips = [ "10.133.0.1/24" ];
-      listenPort = 51821;
-      privateKeyFile = "/private/wireguard/privatekey";
-      postSetup = ''
-        #${pkgs.iptables}/bin/iptables -A FORWARD -i wg-testnet -j ACCEPT
-        ${pkgs.iptables}/bin/iptables -A POSTROUTING -t nat -s 10.133.0.0/24 -o enp1s0 -j MASQUERADE 
-      '';
-      postShutdown = ''
-        #${pkgs.iptables}/bin/iptables -D FORWARD -i wg-testnet -j ACCEPT
-        ${pkgs.iptables}/bin/iptables -D POSTROUTING -t nat -s 10.133.0.0/24 -o enp1s0 -j MASQUERADE 
-      '';
-      peers = [
-        # op5
-        {
-          publicKey = "ql4e+4BEE91K0UEur+YgkoWBNJVzd5Gv8gG5ZQVFzXM=";
-          presharedKeyFile = "/private/wireguard/psk";
-          allowedIPs = [ "10.133.0.100/32" ];
-        }
-        # mbp
-        {
-          publicKey = "1+OPh91bVwYs9Qy0ATkYg4xsBXWK1Llk426+Th8NYXY=";
-          presharedKeyFile = "/private/wireguard/psk";
-          allowedIPs = [ "10.133.0.101/32" ];
-        }
-        # c vana läpakas
-        #{
-        #  publicKey = "zc6jC/R/YwRoP1h7Z6S3+rWyJWJ6BJxRov1a8ejcPgM=";
-        #  presharedKeyFile = "/private/wireguard/psk";
-        #  allowedIPs = [ "10.133.0.102/32" ];
-        #}
-        # rpi
-        {
-          publicKey = "3B8KNbLdzvDguIXhX6d69T7MuoJzpMM6jbPjJzJoN3s=";
-          presharedKeyFile = "/private/wireguard/psk";
-          allowedIPs = [ "10.133.0.103/32" ];
-        }
-        # c vana läpakas, nixos
-        {
-          publicKey = "Tek9NjKx1TLfvjJzzrmJUeuXWpRcWs0kSWdlMxk6OU4=";
-          presharedKeyFile = "/private/wireguard/psk";
-          allowedIPs = [ "10.133.0.104/32" ];
-        }
-      ];
-    };
-  };
-
-  networking.nat = {
-    enable = true;
-    externalInterface = "enp1s0";
-    internalInterfaces = [ "wg-testnet" ];
+    allowedUDPPorts = [ 4001 ];
   };
 
   console.font = "Lat2-Terminus16";
