@@ -23,7 +23,7 @@
   fileSystems."/boot" =
     {
       device = "/dev/disk/by-uuid/01d0f985-a53e-4153-96c7-3020611450c6";
-      fsType = "ext2";
+      fsType = "ext4";
     };
 
   swapDevices =

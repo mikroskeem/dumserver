@@ -38,8 +38,6 @@
     neovim
     tmux
     zsh
-    docker
-    docker-compose
     rsync
   ];
 
@@ -50,6 +48,9 @@
     storageDriver = "overlay";
     liveRestore = false;
     listenOptions = [ "/run/docker.sock" "/run/zentria/docker/docker.sock" ];
+    daemon.settings = {
+      userland-proxy = false;
+    };
   };
 
   # OpenSSH
