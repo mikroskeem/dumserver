@@ -32,7 +32,6 @@
           ./systems/markv
         ];
         specialArgs = {
-          inherit nixpkgs;
           pkgs = importPkgs system;
         };
       };
