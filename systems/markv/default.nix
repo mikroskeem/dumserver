@@ -47,7 +47,7 @@
     enable = true;
     storageDriver = "overlay";
     liveRestore = false;
-    listenOptions = [ "/run/docker.sock" "/run/zentria/docker/docker.sock" ];
+    listenOptions = [ "/run/zentria/docker/docker.sock" ];
     daemon.settings = {
       userland-proxy = false;
     };
