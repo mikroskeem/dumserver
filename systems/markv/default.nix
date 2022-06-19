@@ -45,13 +45,15 @@
 
   virtualisation.docker = {
     enable = true;
-    storageDriver = "overlay";
+    storageDriver = "overlay2";
     liveRestore = false;
     listenOptions = [ "/run/zentria/docker/docker.sock" ];
     daemon.settings = {
       userland-proxy = false;
     };
   };
+
+  environment.persistence."/persist".directories = [ "/srv/http" ];
 
   # OpenSSH
   services.openssh = {
@@ -106,9 +108,12 @@
         description = "Mark V.";
         shell = pkgs.zsh;
         isNormalUser = true;
-        extraGroups = [ "wheel" "docker" "proc" ];
-        subUidRanges = [{ startUid = 50000; count = 4000; }];
-        subGidRanges = [{ startGid = 50000; count = 4000; }];
+        extraGroups = [ "wheel" "docker" ];
+
+        openssh.authorizedKeys.keys = [
+          # ~/.ssh/keys/siil_ed25519
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHwdrBZ11AnXcE+21KqFrG4mFrAWk/fr6QoZ8ERAANJx mark@miniskeem.lan"
+        ];
       };
 
       # Actually mark

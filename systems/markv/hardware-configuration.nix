@@ -14,17 +14,47 @@
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    {
-      device = "/dev/disk/by-label/nixos";
-      fsType = "ext4";
-    };
+  fileSystems."/persist" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "xfs";
+    neededForBoot = true;
+  };
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-label/boot";
-      fsType = "ext4";
-    };
+  fileSystems."/nix" = {
+    device = "/persist/nix";
+    fsType = "none";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/home" = {
+    device = "/persist/home";
+    fsType = "none";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "defaults" "size=512M" "mode=755" ];
+    neededForBoot = true;
+  };
+
+  fileSystems."/tmp" = {
+    device = "tmpfs";
+    fsType = "tmpfs";
+    options = [ "defaults" "size=4G" "mode=1755" ];
+  };
+
+  fileSystems."/var/tmp" = {
+    device = "/tmp";
+    fsType = "none";
+    options = [ "bind" ];
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-label/boot";
+    fsType = "ext4";
+  };
 
 #  swapDevices =
 #    [{ device = "/dev/disk/by-label/swap"; }];
